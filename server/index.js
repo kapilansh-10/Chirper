@@ -3,6 +3,7 @@ const cors = require("cors")
 const mongoose = require("mongoose");
 const dotenv = require("dotenv")
 const User = require("./models/User")
+const bcrypt = require("bcryptjs");
 
 dotenv.config()
 
@@ -26,10 +27,14 @@ app.post('/api/auth/register', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
+
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt)
+
         const newUser = new User({
             email,
             username,
-            password
+            password: hashPassword
         })
         await newUser.save()
         console.log("User saved successfully")
@@ -39,7 +44,40 @@ app.post('/api/auth/register', async (req, res) => {
         console.error("Error saving document",error.message);
         res.status(400).json({message: "Error registering user",error: error.message})
     }
+})
 
+app.post('/api/auth/login', async (req, res) => {
+
+    const { email, password } = req.body;
+
+    
+    try {
+
+        const user = await User.findOne({email})
+
+        if(!user){
+            return res.status(404).json({message: "Invalid credentials"})
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if(!isMatch){
+            return res.status(404).json({message: "Invalid credentials"})
+        }
+
+        res.status(200).json({
+            message: "Login successful",
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        })
+
+    } catch (error) {
+        console.error("Login error",error);
+        res.status(500).json({ message: "Server error during login" })
+    }
 })
 
 app.listen(PORT, () => {

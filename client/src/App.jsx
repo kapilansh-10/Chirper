@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import RegisterPage from '../components/RegisterPage';
+import { NavBar } from '../components/NavBar';
+import {LoginPage} from '../components/LoginPage';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { HomePage } from '../components/HomePage';
 
 function App() {
+
+  const { user } = useContext(AuthContext)
+  console.log('User state in App component:', user); 
+
+  const [currentView, setCurrentView] = useState('login')
 
   const [message, setMessage] = useState("");
 
@@ -22,9 +32,18 @@ function App() {
 
   return (
     <div>
+      {/* <NavBar setCurrentView={setCurrentView}/> */}
       <h1>Chirper</h1>
       <p>Message from your backend: <strong>{message}</strong></p>
-      <RegisterPage/>
+      {user ? (
+        <HomePage/>
+      ) : (
+        currentView === 'login' ? (
+          <LoginPage setCurrentView={setCurrentView} />
+        ) : (
+          <RegisterPage setCurrentView={setCurrentView} />
+        )
+      )}
     </div>
   )
 }
