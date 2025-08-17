@@ -1,20 +1,66 @@
 import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
+import { useState } from "react";
+import { useEffect } from "react";
 
 export const HomePage = () => {
 
     const { user, logout } = useContext(AuthContext);
 
+    const [chirps, setChirps] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/chirps")
+
+                if(!response.ok) {
+                    throw new Error("Failed to fetch chirps")
+                }
+
+                const data =await response.json()
+                console.log(data)
+                setChirps(data);
+            } 
+            catch (error) {
+                console.error("Error",error)
+                setError(error.message)
+            }
+            finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    },[])
+
+    if(loading) {
+        return <div>Loading...</div>
+    }
+
+    if(error) {
+        return <div>Error: {error}</div>
+    }
+
     return (
         <div>
-            {user ?
+            {user &&
                 (<div>
                     <p>Welcome, {user.username}</p>
                     <button onClick={logout}>Logout</button>
-                </div>)
-                :
-                null
-            }
+                </div>
+            )}
+
+            <h2>Chirp Feed</h2>
+            <ul>
+                {chirps.map((chirp) => (
+                    <li key={chirp._id}>
+                        <strong>{chirp.author.username}</strong>
+                        <p>{chirp.text}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

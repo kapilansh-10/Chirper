@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv")
 const User = require("./models/User")
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken")
+const auth = require("./middleware/auth")
+const Chirp = require("./models/Chirp")
 
 dotenv.config()
 
@@ -54,7 +57,6 @@ app.post('/api/auth/login', async (req, res) => {
 
     const { email, password } = req.body;
 
-    
     try {
 
         const user = await User.findOne({email})
@@ -69,18 +71,69 @@ app.post('/api/auth/login', async (req, res) => {
             return res.status(404).json({message: "Invalid credentials"})
         }
 
+        // Start of jwt logic
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        const token = jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            { expiresIn: '1h'}
+        )
+
         res.status(200).json({
             message: "Login successful",
+            token: token,
             user: {
                 id: user._id,
                 username: user.username,
                 email: user.email
             }
         })
-
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("Login error",error);
         res.status(500).json({ message: "Server error during login" })
+    }
+})
+
+app.post('/api/chirps',auth, async (req, res) => {
+
+    const { text } = req.body;
+
+    // basic validation
+    if(!text || text.trim() === '') {
+        return res.status(400).json({ message: "Chirp cannot be empty "})
+    }
+
+    try {
+        const newChirp = new Chirp ({
+            text,
+            author: req.user.id
+        })
+        await newChirp.save()
+
+        res.status(201).json(newChirp)
+    } catch (error) {
+        res.status(500).json({ message: "Server error, could not create a chirp" })
+    }
+})
+
+app.get('/api/chirps', async (req, res) => {
+
+    try {
+        const allChirps = await Chirp.find()
+            .populate('author', 'username')
+            .sort({ createdAt: -1 })
+
+        res.status(200).json(allChirps);
+
+    } catch (error) {
+        console.error("Error fetching chirps:",error)
+        res.status(500).json({ message: "Unable to get chirps" })
     }
 })
 

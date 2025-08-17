@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import RegisterPage from '../components/RegisterPage';
 import { NavBar } from '../components/NavBar';
-import {LoginPage} from '../components/LoginPage';
+import LoginPage from '../components/LoginPage';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { HomePage } from '../components/HomePage';
