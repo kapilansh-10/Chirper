@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-
-export const LoginPage = ({setCurrentView}) => {
+const LoginPage = ({setCurrentView}) => {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -27,7 +26,7 @@ export const LoginPage = ({setCurrentView}) => {
             }
 
             const data = await response.json();
-            console.log("Login success",    data);
+            console.log("Login success",data);
 
             login(data.user);
         } 
@@ -63,3 +62,5 @@ export const LoginPage = ({setCurrentView}) => {
         </>
     )
 }
+
+export default LoginPage;
