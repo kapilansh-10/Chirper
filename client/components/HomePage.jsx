@@ -46,13 +46,32 @@ export const HomePage = () => {
 
     
 
-    const addChirp = (text) => {
+    const addChirp = async (text) => {
         const chirp = {
-            id: Date.now,
+            id: Date.now(),
             author: user.username,
             text: text
         }
         setChirps([...chirps, chirp])
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch("http://localhost:5000/api/chirps",{
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: text}) 
+            })
+
+            if(!response.ok) {
+                console.error("Failed to save the chirp to the server")
+            }
+        } 
+        catch (error) {
+            console.error("An error occurred",error)
+        }
     }
 
     return (

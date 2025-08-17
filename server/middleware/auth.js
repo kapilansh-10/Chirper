@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
 
     // verify token
     try {
-        const decoded = jwt.verify(token, process.env, JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // add the user's  id from the token payload to the request object
         req.user = decoded.user;
