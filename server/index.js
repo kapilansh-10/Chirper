@@ -122,7 +122,7 @@ app.post('/api/chirps',auth, async (req, res) => {
     }
 })
 
-app.get('/api/chirps', async (req, res) => {
+app.get('/api/chirps', auth, async (req, res) => {
 
     try {
         const allChirps = await Chirp.find()

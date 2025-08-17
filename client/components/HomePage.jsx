@@ -13,9 +13,19 @@ export const HomePage = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/chirps")
+
+                const token = localStorage.getItem('token');
+                if(!token){
+                    throw new Error ("Authentication token not found")
+                }
+                const response = await fetch("http://localhost:5000/api/chirps",{
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
 
                 if(!response.ok) {
                     throw new Error("Failed to fetch chirps")
@@ -33,8 +43,10 @@ export const HomePage = () => {
                 setLoading(false)
             }
         }
-        fetchData()
-    },[])
+        if (user) {
+            fetchData()
+        }
+    },[user])
 
     if(loading) {
         return <div>Loading...</div>
