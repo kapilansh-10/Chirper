@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { useState } from "react";
 import { useEffect } from "react";
+import CreateChirpForm from "./CreateChirpForm";
 
 export const HomePage = () => {
 
@@ -43,12 +44,25 @@ export const HomePage = () => {
         return <div>Error: {error}</div>
     }
 
+    
+
+    const addChirp = (text) => {
+        const chirp = {
+            id: Date.now,
+            author: user.username,
+            text: text
+        }
+        setChirps([...chirps, chirp])
+    }
+
     return (
         <div>
             {user &&
-                (<div>
+                (
+                <div>
                     <p>Welcome, {user.username}</p>
                     <button onClick={logout}>Logout</button>
+                    <CreateChirpForm addChirp={addChirp}/>
                 </div>
             )}
 

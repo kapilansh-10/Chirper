@@ -29,6 +29,10 @@ const LoginPage = ({setCurrentView}) => {
             console.log("Login success",data);
 
             login(data.user);
+
+            if (data.token) {
+                localStorage.setItem('token', data.token)
+            }
         } 
         catch (error) {
             console.error("Login Error",error)
