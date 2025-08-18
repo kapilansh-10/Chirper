@@ -6,7 +6,8 @@ const User = require("./models/User")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 const auth = require("./middleware/auth")
-const Chirp = require("./models/Chirp")
+const Chirp = require("./models/Chirp");
+const { text } = require("body-parser");
 
 dotenv.config()
 
@@ -134,6 +135,26 @@ app.get('/api/chirps', auth, async (req, res) => {
     } catch (error) {
         console.error("Error fetching chirps:",error)
         res.status(500).json({ message: "Unable to get chirps" })
+    }
+})
+
+// deleting a chirp by id
+app.delete('/api/chirps/:id', auth, async (req, res) => {
+
+    try {
+        const ChirpToDelete = await Chirp.findById(req.params.id)
+        if(ChirpToDelete === null) {
+            res.status(404).json({message: "Not found"})
+        }
+        if(ChirpToDelete.author.toString() === req.user.id){
+            ChirpToDelete.deleteOne()
+            res.status(201).json({ message: "Chirp deleted successfully" })
+        }
+        else{
+            res.status(401).send({ message: "Unauthorized response" })
+        }
+    } catch (error) {
+        console.error("Error",error)
     }
 })
 

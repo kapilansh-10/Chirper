@@ -86,6 +86,27 @@ export const HomePage = () => {
         }
     }
 
+    const deleteChirp = async (chirpId) => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`https://chirper-api-kapilansh.onrender.com/api/chirps/${chirpId}`,{
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if(response.ok){
+                console.log("Deletion successful")
+                setChirps(chirps.filter(chirp => chirp._id !== chirpId))
+            }
+            else{
+                console.log("Deletion unsuccessful")
+            }
+        } catch (error) {
+            console.error("Error",error)
+        }
+    }   
+
     return (
         <div>
             {user &&
@@ -102,7 +123,7 @@ export const HomePage = () => {
                 {chirps.map((chirp) => (
                     <li key={chirp._id}>
                         <strong>{chirp.author.username}</strong>
-                        <p>{chirp.text}</p>
+                        <p>{chirp.text}</p> { user && chirp.author._id === user.id &&  <button onClick={() => deleteChirp(chirp._id)}>Delete</button>}
                     </li>
                 ))}
             </ul>
