@@ -64,7 +64,6 @@ export const HomePage = () => {
             author: user.username,
             text: text
         }
-        setChirps([...chirps, chirp])
 
         try {
             const token = localStorage.getItem('token');
@@ -76,6 +75,11 @@ export const HomePage = () => {
                 },
                 body: JSON.stringify({text: text}) 
             })
+
+            if(response.ok){
+                const newChirpFromServer = await response.json();
+                setChirps([newChirpFromServer,...chirps])
+            }
 
             if(!response.ok) {
                 console.error("Failed to save the chirp to the server")

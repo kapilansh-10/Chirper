@@ -115,7 +115,8 @@ app.post('/api/chirps',auth, async (req, res) => {
             author: req.user.id
         })
         await newChirp.save()
-
+        const populateChirp = await Chirp.findById(newChirp._id).populate('author','username')
+        res.status(201).json(populateChirp)
         res.status(201).json(newChirp)
     } catch (error) {
         res.status(500).json({ message: "Server error, could not create a chirp" })
