@@ -11,6 +11,8 @@ export const HomePage = () => {
     const [chirps, setChirps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [editingChirpId, setEditingChirpId] = useState(null);
+    const [editedText, setEditedText] = useState("")
 
     useEffect(() => {
 
@@ -109,7 +111,34 @@ export const HomePage = () => {
         } catch (error) {
             console.error("Error",error)
         }
-    }   
+    }
+    
+    const handleSaveEdit = async (chirpId) => {
+
+        try {
+            const token = localStorage.getItem('token');
+            const response= await fetch(`https://chirper-api-kapilansh.onrender.com/api/chirps/${chirpId}`,{
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({text: editedText})
+            })
+
+            if(response.ok){
+                const updatedChirp = await response.json();
+                setChirps(chirps.map(chirp => chirp._id === chirpId ? updatedChirp : chirp))
+                setEditingChirpId(null);
+                setEditedText("");
+            }
+        }
+
+        catch (error) {
+            console.error("Error",error)
+        }
+
+    }
 
     return (
         <div>
@@ -128,8 +157,28 @@ export const HomePage = () => {
                     console.log(`Comparing Chirp Author ID: ${chirp.author._id} with Logged-in User ID: ${user.id}`),
                     <li key={chirp._id}>
                         <strong>{chirp.author.username}</strong>
-                        <p>{chirp.text}</p> 
-                        { user && chirp.author._id === user.id &&  <button onClick={() => deleteChirp(chirp._id)}>Delete</button>}
+                        {
+                        editingChirpId === chirp._id ? 
+                        <>
+                        <textarea 
+                            value={editedText} 
+                            onChange={(e) => setEditedText(e.target.value)}/> 
+                        <button onClick={ () => handleSaveEdit(chirp._id)}>Save</button>
+                        <button onClick={() => setEditingChirpId(null)}>Cancel</button> 
+                        </>
+                        :
+                        <>
+                        <p>{chirp.text}</p>
+                            {
+                                user && chirp.author._id === user.id && (
+                                    <>
+                                        <button onClick={() => deleteChirp(chirp._id)}>Delete</button> 
+                                        <button onClick={() => {setEditingChirpId(chirp._id); setEditedText(chirp.text)}}>Edit</button>
+                                    </>
+                                )
+                            }
+                        </>
+                        } 
                     </li>
                 ))}
             </ul>

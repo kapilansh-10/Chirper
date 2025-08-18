@@ -158,6 +158,27 @@ app.delete('/api/chirps/:id', auth, async (req, res) => {
     }
 })
 
+// editing a chirp by id
+app.patch('/api/chirps/:id', auth, async (req, res) => {
+
+    try {
+        const ChirpToEdit = await Chirp.findById(req.params.id);
+        if(ChirpToEdit === null) {
+            return res.status(404).json({message: "Not found"});
+        }
+        if(ChirpToEdit.author.toString() === req.user.id){
+            const newText = req.body.text;
+            const updatedChirp = await Chirp.findByIdAndUpdate(req.params.id, { text: newText}, {new: true});
+            res.status(200).json(updatedChirp)
+        }
+        else{
+            res.status(401).json({ message: "Unauthorized Network" })
+        }
+    } catch (error) {
+        res.status(500).send('Server Error')
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
