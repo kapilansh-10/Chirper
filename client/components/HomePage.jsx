@@ -121,9 +121,11 @@ export const HomePage = () => {
             <h2>Chirp Feed</h2>
             <ul>
                 {chirps.map((chirp) => (
+                    console.log(`Comparing Chirp Author ID: ${chirp.author._id} with Logged-in User ID: ${user.id}`),
                     <li key={chirp._id}>
                         <strong>{chirp.author.username}</strong>
-                        <p>{chirp.text}</p> { user && chirp.author._id === user.id &&  <button onClick={() => deleteChirp(chirp._id)}>Delete</button>}
+                        <p>{chirp.text}</p> 
+                        { user && chirp.author._id === user.id &&  <button onClick={() => deleteChirp(chirp._id)}>Delete</button>}
                     </li>
                 ))}
             </ul>
