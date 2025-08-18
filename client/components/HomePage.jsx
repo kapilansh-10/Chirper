@@ -21,7 +21,7 @@ export const HomePage = () => {
                 if(!token){
                     throw new Error ("Authentication token not found")
                 }
-                const response = await fetch("http://localhost:5000/api/chirps",{
+                const response = await fetch("https://chirper-api-kapilansh.onrender.com/api/chirps",{
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -68,7 +68,7 @@ export const HomePage = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch("http://localhost:5000/api/chirps",{
+            const response = await fetch("https://chirper-api-kapilansh.onrender.com/api/chirps",{
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
