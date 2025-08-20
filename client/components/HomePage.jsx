@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext"
 import { useState } from "react";
 import { useEffect } from "react";
 import CreateChirpForm from "./CreateChirpForm";
+import { Link } from "react-router-dom";
 
 export const HomePage = () => {
 
@@ -156,7 +157,9 @@ export const HomePage = () => {
                 {chirps.map((chirp) => (
                     console.log(`Comparing Chirp Author ID: ${chirp.author._id} with Logged-in User ID: ${user.id}`),
                     <li key={chirp._id}>
-                        <strong>{chirp.author.username}</strong>
+                        <Link to={`/profile/${chirp.author._id}`}>
+                            <strong>{chirp.author.username}</strong>
+                        </Link>
                         {
                         editingChirpId === chirp._id ? 
                         <>

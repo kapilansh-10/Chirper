@@ -179,6 +179,21 @@ app.patch('/api/chirps/:id', auth, async (req, res) => {
     }
 })
 
+// getting all the chirps of a specific user
+app.get('/api/chirps/user/:userId', async (req, res) => {
+
+    const { userId } = req.params;
+
+    try {
+        const userChirps = await Chirp.find({
+            author: userId
+        }).populate('author','username').sort({createdAt: -1});
+        res.status(200).json(userChirps);
+    } catch (error) {
+        res.status(500).send("Server Error")
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })

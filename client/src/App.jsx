@@ -6,6 +6,8 @@ import LoginPage from '../components/LoginPage';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { HomePage } from '../components/HomePage';
+import { Routes, Route } from 'react-router-dom';
+import ProfilePage from "../components/ProfilePage"
 
 function App() {
 
@@ -35,15 +37,21 @@ function App() {
       {/* <NavBar setCurrentView={setCurrentView}/> */}
       <h1>Chirper</h1>
       <p>Message from your backend: <strong>{message}</strong></p>
-      {user ? (
-        <HomePage/>
-      ) : (
-        currentView === 'login' ? (
-          <LoginPage setCurrentView={setCurrentView} />
-        ) : (
-          <RegisterPage setCurrentView={setCurrentView} />
-        )
-      )}
+      <Routes>
+        <Route
+          path='/'
+          element = {
+            user ? (
+              <HomePage/>
+            ) : currentView === 'login' ? (
+              <LoginPage setCurrentView={setCurrentView} />
+            ) : (
+              <RegisterPage setCurrentView={setCurrentView} />
+            )
+          }
+        />
+        <Route path='/profile/:userId' element={<ProfilePage />} />
+      </Routes>
     </div>
   )
 }
