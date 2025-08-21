@@ -6,7 +6,7 @@ const ProfilePage = () => {
 
     const { user } = useContext(AuthContext);
     
-    const [userChirps, setUserChirps] = useState([]);
+    const [chirps, setChirps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null)
 
@@ -76,12 +76,12 @@ const ProfilePage = () => {
         <div>
             <h2>This is a user's profile page!</h2>
             <ul>
-                {userChirps.map((userChirp) => (
-                    <li key={userChirp._id}>
-                        <strong>{userChirp.author.username}</strong>
-                        <p>{userChirp.text}</p>
-                        <button style={{ color: userChirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chir._id)}>Like</button>
-                        <span>{userChirp.likes.length}</span>
+                {chirps.map((chirp) => (
+                    <li key={chirp._id}>
+                        <strong>{chirp.author.username}</strong>
+                        <p>{chirp.text}</p>
+                        <button style={{ color: chirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chirp._id)}>Like</button>
+                        <span>{chirp.likes.length}</span>
                     </li>
                 ))}
             </ul>
