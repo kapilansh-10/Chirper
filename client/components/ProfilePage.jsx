@@ -42,6 +42,27 @@ const ProfilePage = () => {
         }
         fetchData();
     },[userId])
+
+
+    const handleLike = async (chirpId) => {
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`https://chirper-api-kapilansh.onrender.com/api/chirps/${chirpId}/likes`,{
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            if(response.ok){
+                const updatedChirp = await response.json();
+                setChirps(chirps.map(chirp => chirp._id === chirpId ? updatedChirp : chirp))
+            }
+        } catch (error) {
+            console.error("Error",error)
+        }
+    }
     
     if(loading) {
         return <div>Loading ...</div>
@@ -59,7 +80,7 @@ const ProfilePage = () => {
                     <li key={userChirp._id}>
                         <strong>{userChirp.author.username}</strong>
                         <p>{userChirp.text}</p>
-                        <button style={{ color: userChirp.likes.includes(user.id) ? 'red' : 'white'}} >Like</button>
+                        <button style={{ color: userChirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chir._id)}>Like</button>
                         <span>{userChirp.likes.length}</span>
                     </li>
                 ))}
