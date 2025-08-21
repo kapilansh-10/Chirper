@@ -205,12 +205,14 @@ app.patch('/api/chirps/:id/likes', auth, async (req, res) => {
         if (chirpToLike.likes.includes(req.user.id)){
             chirpToLike.likes = chirpToLike.likes.filter(likeId => likeId.toString() !== req.user.id);
             await chirpToLike.save();
-            res.status(200).json(chirpToLike);
+            const populateChirp = await Chirp.findById(chirpToLike._id).populate('author', 'username')
+            res.status(200).json(populateChirp);
         }
         else {
             chirpToLike.likes.push(req.user.id);
             await chirpToLike.save();
-            res.status(200).json(chirpToLike);
+            const populateChirp = await Chirp.findById(chirpToLike._id).populate('author', 'username')
+            res.status(200).json(populateChirp);
         }
     } catch (error) {
         res.status(500).send("Server error")
