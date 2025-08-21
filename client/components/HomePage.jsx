@@ -138,7 +138,26 @@ export const HomePage = () => {
         catch (error) {
             console.error("Error",error)
         }
+    }
 
+    const handleLike = async (chirpId) => {
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`https://chirper-api-kapilansh.onrender.com/api/chirps/${chirpId}/likes`,{
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            if(response.ok){
+                const updatedChirp = await response.json();
+                setChirps(chirps.map(chirp => chirp._id === chirpId ? updatedChirp : chirp))
+            }
+        } catch (error) {
+            console.error("Error",error)
+        }
     }
 
     return (
@@ -172,6 +191,10 @@ export const HomePage = () => {
                         :
                         <>
                         <p>{chirp.text}</p>
+                            <>
+                                <button style={{ color: chirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chirp._id)}>Like</button>
+                                <span>{chirp.likes.length}</span>
+                            </>
                             {
                                 user && chirp.author._id === user.id && (
                                     <>

@@ -194,6 +194,29 @@ app.get('/api/chirps/user/:userId', async (req, res) => {
     }
 })
 
+// liking a chirp
+app.patch('/api/chirps/:id/likes', auth, async (req, res) => {
+
+    try {
+        const chirpToLike = await Chirp.findById(req.params.id);
+        if(chirpToLike === null){
+            return res.status(404).send("404 Error")
+        }
+        if (chirpToLike.likes.includes(req.user.id)){
+            chirpToLike.likes = chirpToLike.likes.filter(likeId => likeId.toString() !== req.user.id);
+            await chirpToLike.save();
+            res.status(200).json(chirpToLike);
+        }
+        else {
+            chirpToLike.likes.push(req.user.id);
+            await chirpToLike.save();
+            res.status(200).json(chirpToLike);
+        }
+    } catch (error) {
+        res.status(500).send("Server error")
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })

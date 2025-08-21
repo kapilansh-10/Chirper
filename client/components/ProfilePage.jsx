@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const ProfilePage = () => {
+
+    const { user } = useContext(AuthContext);
     
     const [userChirps, setUserChirps] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -56,6 +59,8 @@ const ProfilePage = () => {
                     <li key={userChirp._id}>
                         <strong>{userChirp.author.username}</strong>
                         <p>{userChirp.text}</p>
+                        <button style={{ color: userChirp.likes.includes(user.id) ? 'red' : 'white'}} >Like</button>
+                        <span>{userChirp.likes.length}</span>
                     </li>
                 ))}
             </ul>
