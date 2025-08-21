@@ -26,7 +26,7 @@ const ProfilePage = () => {
                 const data = await response.json()
                 if(response.ok){
                     console.log("Fetched user chips successfully")
-                    setUserChirps(data)
+                    setChirps(data)
                 }
                 else{
                     console.log("Unable to fetch User Chirps")
