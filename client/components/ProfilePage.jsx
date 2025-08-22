@@ -80,6 +80,9 @@ const ProfilePage = () => {
                     <li key={chirp._id}>
                         <strong>{chirp.author.username}</strong>
                         <p>{chirp.text}</p>
+                        {chirp.image && (
+                            <img src={chirp.image} alt="Chirp attachment" style={{ maxWidth: '100%', borderRadius: '10px', marginTop: '10px'}} />
+                        )}
                         <button style={{ color: chirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chirp._id)}>Like</button>
                         <span>{chirp.likes.length}</span>
                     </li>
