@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 const auth = require("./middleware/auth")
 const Chirp = require("./models/Chirp");
+const upload = require("./config/cloudinary")
 
 dotenv.config()
 
@@ -47,7 +48,8 @@ app.post('/api/auth/register', async (req, res) => {
         console.log("User saved successfully")
         res.status(201).json({message: "User registered successfully"})
 
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("Error saving document",error.message);
         res.status(400).json({message: "Error registering user",error: error.message})
     }
@@ -100,7 +102,7 @@ app.post('/api/auth/login', async (req, res) => {
     }
 })
 
-app.post('/api/chirps',auth, async (req, res) => {
+app.post('/api/chirps',auth, upload.single('image'), async (req, res) => {
 
     const { text } = req.body;
 
@@ -112,13 +114,14 @@ app.post('/api/chirps',auth, async (req, res) => {
     try {
         const newChirp = new Chirp ({
             text,
-            author: req.user.id
+            author: req.user.id,
+            image: req.file ? req.file.path : null
         })
         await newChirp.save()
         const populateChirp = await Chirp.findById(newChirp._id).populate('author','username')
         res.status(201).json(populateChirp)
-        res.status(201).json(newChirp)
-    } catch (error) {
+    } 
+    catch (error) {
         res.status(500).json({ message: "Server error, could not create a chirp" })
     }
 })
@@ -132,7 +135,8 @@ app.get('/api/chirps', auth, async (req, res) => {
 
         res.status(200).json(allChirps);
 
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("Error fetching chirps:",error)
         res.status(500).json({ message: "Unable to get chirps" })
     }
@@ -153,7 +157,8 @@ app.delete('/api/chirps/:id', auth, async (req, res) => {
         else{
             res.status(401).send({ message: "Unauthorized response" })
         }
-    } catch (error) {
+    } 
+    catch (error) {
         res.status(500).send('Server Error')
     }
 })
@@ -174,7 +179,8 @@ app.patch('/api/chirps/:id', auth, async (req, res) => {
         else{
             res.status(401).json({ message: "Unauthorized Network" })
         }
-    } catch (error) {
+    } 
+    catch (error) {
         res.status(500).send('Server Error')
     }
 })
@@ -189,7 +195,8 @@ app.get('/api/chirps/user/:userId', async (req, res) => {
             author: userId
         }).populate('author','username').sort({createdAt: -1});
         res.status(200).json(userChirps);
-    } catch (error) {
+    } 
+    catch (error) {
         res.status(500).send("Server Error")
     }
 })
@@ -214,7 +221,8 @@ app.patch('/api/chirps/:id/likes', auth, async (req, res) => {
             const populateChirp = await Chirp.findById(chirpToLike._id).populate('author', 'username')
             res.status(200).json(populateChirp);
         }
-    } catch (error) {
+    } 
+    catch (error) {
         res.status(500).send("Server error")
     }
 })

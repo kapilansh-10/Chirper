@@ -61,7 +61,7 @@ export const HomePage = () => {
 
     
 
-    const addChirp = async (text) => {
+    const addChirp = async ({text,image}) => {
         const chirp = {
             id: Date.now(),
             author: user.username,
@@ -70,13 +70,17 @@ export const HomePage = () => {
 
         try {
             const token = localStorage.getItem('token');
+            const formData = new FormData()
+            formData.append('text',text);
+            if (image) {
+                formData.append('image', image)
+            }
             const response = await fetch("https://chirper-api-kapilansh.onrender.com/api/chirps",{
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({text: text}) 
+                body: formData 
             })
 
             if(response.ok){

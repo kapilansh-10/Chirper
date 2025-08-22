@@ -14,10 +14,13 @@ const ChirpSchema = new Schema({
         ref: 'User',
         required: true
     },
-        likes: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        }]
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    image: {
+        type: String
+    }
 },{timestamps: true}) 
 
 const Chirp = mongoose.model("Chirp",ChirpSchema)
