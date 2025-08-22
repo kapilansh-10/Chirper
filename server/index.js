@@ -16,7 +16,8 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.error("MongoDB connection error",err))
 
 const app = express();
-const PORT = 5000;
+// Use the PORT provided by the hosting environment (e.g. Render) or fallback for local dev
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
@@ -230,4 +231,12 @@ app.patch('/api/chirps/:id/likes', auth, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
+
+// Graceful shutdown logging (helps diagnose crashes on Render)
+process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled Promise Rejection:', reason);
+});
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+});
 
