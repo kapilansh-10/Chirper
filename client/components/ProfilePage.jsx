@@ -44,25 +44,25 @@ const ProfilePage = () => {
     },[userId])
 
 
-    const handleLike = async (chirpId) => {
+        const handleLike = async (chirpId) => {
 
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`https://chirper-api-kapilansh.onrender.com/api/chirps/${chirpId}/likes`,{
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`https://chirper-api-kapilansh.onrender.com/api/chirps/${chirpId}/likes`,{
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                if(response.ok){
+                    const updatedChirp = await response.json();
+                    setChirps(chirps.map(chirp => chirp._id === chirpId ? updatedChirp : chirp))
                 }
-            })
-            if(response.ok){
-                const updatedChirp = await response.json();
-                setChirps(chirps.map(chirp => chirp._id === chirpId ? updatedChirp : chirp))
+            } catch (error) {
+                console.error("Error",error)
             }
-        } catch (error) {
-            console.error("Error",error)
         }
-    }
     
     if(loading) {
         return <div>Loading ...</div>
