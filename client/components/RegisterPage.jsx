@@ -42,33 +42,50 @@ const RegisterPage = ({setCurrentView}) => {
         setCurrentView('login')
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <h3>username</h3>
-                <input 
-                    type="text"
-                    placeholder="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+            // <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8  bg-pink-50" >
+            // </div>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50">
+                <h1 className="mt-10 text-center text-2xl font-bold tracking-tight text-black mb-5">Register an account</h1>
+                    <form onSubmit={handleSubmit} className="bg-red-300 p-8 rounded-lg shadow-lg w-full max-w-sm">
+                        <div>
+                            <h3 className="mb-2 font-semibold text-xl" >Username</h3>
+                            <div className="mt-2">
+                                <input 
+                                    type="text"
+                                    placeholder="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"  
+                                />
+                            </div>
+                        </div>
 
-                <h3>email</h3>
-                <input 
-                    type="text"
-                    placeholder="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                        <div>
+                            <h3 className="mb-2 font-semibold text-xl" >Email</h3>
+                            <input 
+                                type="text"
+                                placeholder="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"  
+                            />
+                        </div>
 
-                <h3>password</h3>
-                <input 
-                    type="text"
-                    placeholder="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <br />
-                <button type="submit">Register</button>
-        </form>
+                        <h3 className="mb-2 font-semibold text-xl" >Password</h3>
+                            <input 
+                                type="text"
+                                placeholder="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"
+                            />
+                        <br />
+                        <button 
+                            type="submit"
+                            className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded mb-3"
+                        >Register</button>
+                    </form>
+            </div>
         )
     }
 
