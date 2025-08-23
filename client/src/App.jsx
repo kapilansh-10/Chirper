@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import RegisterPage from '../components/RegisterPage';
-import { NavBar } from '../components/NavBar';
 import LoginPage from '../components/LoginPage';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -35,8 +34,8 @@ function App() {
   return (
     <div>
       {/* <NavBar setCurrentView={setCurrentView}/> */}
-      <h1>Chirper</h1>
-      <p>Message from your backend: <strong>{message}</strong></p>
+      {/* <h1>Chirper</h1> */}
+      {/* <p>Message from your backend: <strong>{message}</strong></p> */}
       <Routes>
         <Route
           path='/'
