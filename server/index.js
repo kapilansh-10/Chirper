@@ -77,7 +77,8 @@ app.post('/api/auth/login', async (req, res) => {
         // Start of jwt logic
         const payload = {
             user: {
-                id: user.id
+                id: user.id,
+                username: user.username
             }
         }
 
