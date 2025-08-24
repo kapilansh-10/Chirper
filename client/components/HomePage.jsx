@@ -52,11 +52,11 @@ export const HomePage = () => {
     },[user])
 
     if(loading) {
-        return <div>Loading...</div>
+        return <div className="text-center  tex-gray-600">Loading...</div>
     }
 
     if(error) {
-        return <div>Error: {error}</div>
+        return <div className="text-center text-red-500">Error: {error}</div>
     }
 
     
@@ -165,53 +165,103 @@ export const HomePage = () => {
     }
 
     return (
-        <div>
+        <div className="max-w-2xl mx-auto px-4">
             {user &&
                 (
-                <div>
-                    <p>Welcome, {user.username}</p>
-                    <button onClick={logout}>Logout</button>
-                    <CreateChirpForm addChirp={addChirp}/>
+                <div className="flex justify-between items-center mb-6">
+                    <p className="text-lg font-semibold text-gray-800">Welcome, {user.username}</p>
+                    <button 
+                        onClick={logout}
+                        className="text-sm bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition mt-2"
+                        >Logout
+                    </button>
                 </div>
             )}
 
-            <h2>Chirp Feed</h2>
-            <ul>
+            <div className="mb-8">
+                <CreateChirpForm addChirp={addChirp}/>
+            </div>
+
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Chirp Feed</h2>
+            <ul className="space-y-4">
                 {chirps.map((chirp) => (
                     console.log(`Comparing Chirp Author ID: ${chirp.author._id} with Logged-in User ID: ${user.id}`),
-                    <li key={chirp._id}>
-                        <Link to={`/profile/${chirp.author._id}`}>
+                    <li 
+                        key={chirp._id}
+                        className="bg-white p-4 rounded-xl shadow-sm border border-gray-100"
+                        >
+
+                        <Link to={`/profile/${chirp.author._id}`}
+                            className="font-bold text-gray-900 hover:underline"
+                            >
                             <strong>{chirp.author.username}</strong>
                         </Link>
-                        {
-                        editingChirpId === chirp._id ? 
-                        <>
-                        <textarea 
-                            value={editedText} 
-                            onChange={(e) => setEditedText(e.target.value)}/> 
-                        <button onClick={ () => handleSaveEdit(chirp._id)}>Save</button>
-                        <button onClick={() => setEditingChirpId(null)}>Cancel</button> 
-                        </>
-                        :
-                        <>
-                        <p>{chirp.text}</p>
-                        {chirp.image && (
-                            <img src={chirp.image} alt="Chirp attachment" style={{ maxWidth: '100%', borderRadius: '10px', marginTop: '10px'}} />
-                        )}
-                            <>
-                                <button style={{ color: chirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chirp._id)}>Like</button>
-                                <span>{chirp.likes.length}</span>
-                            </>
-                            {
-                                user && chirp.author._id === user.id && (
-                                    <>
-                                        <button onClick={() => deleteChirp(chirp._id)}>Delete</button> 
-                                        <button onClick={() => {setEditingChirpId(chirp._id); setEditedText(chirp.text)}}>Edit</button>
-                                    </>
-                                )
-                            }
-                        </>
-                        } 
+
+                        {editingChirpId === chirp._id ? (
+                                <div className="mt-10">
+                                <textarea 
+                                    value={editedText} 
+                                    onChange={(e) => setEditedText(e.target.value)}
+                                    className=" w-full p-2 border rounded-lg focus:ring focus:ring-pink-300 "
+                                /> 
+                                <div className="flex gap-2 mt-2">
+                                    <button 
+                                        onClick={ () => handleSaveEdit(chirp._id)}
+                                        className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600"
+                                        >
+                                        Save
+                                    </button>
+                                    <button 
+                                        onClick={() => setEditingChirpId(null)}
+                                        className="bg-gray-300 px-3 py-1 rounded-lg hover:bg-gray-400"
+                                        >
+                                        Cancel
+                                    </button> 
+                                </div>
+                        </div>
+                        ):(
+                            <div className="mt-2">
+                                <p className="text-gray-700">{chirp.text}</p>
+                                {chirp.image && (
+                                    <img
+                                        src={chirp.image} 
+                                        alt="Chirp attachment" 
+                                        className="mt-3 rounded-lg max-h-60 object-cover"
+                                    />
+                            )}
+
+                            <div className="flex items-center gap-3 mt-3">
+                                <button 
+                                    // style={{ color: chirp.likes.includes(user.id) ? 'red' : 'white'}} 
+                                    onClick={() => handleLike(chirp._id)}
+                                    className={`flex items-center gap-1 text-sm font-medium ${
+                                        chirp.likes.includes(user.id)
+                                        ? "text-pink-500"
+                                        : "text-gray-500 hover:text-pink-500"
+                                    }`}
+                                    >
+                                    ❤️ Like
+                                </button>
+                                <span className="text-sm text-gray-500">{chirp.likes.length}</span>
+
+                                {user && chirp.author._id === user.id && (
+                                    <div className="flex gap-2 ml-auto">
+                                        <button 
+                                            onClick={() => deleteChirp(chirp._id)}
+                                            className="text-sm text-red-500 hover:underline"
+                                            >Delete
+                                        </button> 
+                                        <button 
+                                                onClick={() => {setEditingChirpId(chirp._id); 
+                                                setEditedText(chirp.text)}}
+                                                className="text-sm text-blue-500 hover:underline"
+                                            >Edit
+                                        </button>
+                                    </div>
+                                    )}
+                                </div>
+                            </div>
+                        )} 
                     </li>
                 ))}
             </ul>

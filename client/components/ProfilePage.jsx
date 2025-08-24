@@ -73,21 +73,42 @@ const ProfilePage = () => {
     }
 
     return (
-        <div>
-            <h2>This is a user's profile page!</h2>
-            <ul>
+        <div className="max-w-2xl mx-auto p-4">
+            <div className="bg-white shadow-md rounded-2xl p-6 mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">Profile Page</h2>
+                <p className="text-gray-600">Welcome to {user?.username || "this user"}'s profile</p>
+            </div>
+            <div className="space-y-4">
                 {chirps.map((chirp) => (
-                    <li key={chirp._id}>
-                        <strong>{chirp.author.username}</strong>
-                        <p>{chirp.text}</p>
-                        {chirp.image && (
-                            <img src={chirp.image} alt="Chirp attachment" style={{ maxWidth: '100%', borderRadius: '10px', marginTop: '10px'}} />
-                        )}
-                        <button style={{ color: chirp.likes.includes(user.id) ? 'red' : 'white'}} onClick={() => handleLike(chirp._id)}>Like</button>
-                        <span>{chirp.likes.length}</span>
-                    </li>
+                        <div 
+                            key={chirp._id}
+                            className="bg-white p-4 rounded-xl shadow-sm border border-gray-100"
+                            >
+                            <strong className="font-bold text-gray-900">{chirp.author.username}</strong>
+                            <p className="text-gray-700 mt-1">{chirp.text}</p>
+                            
+                            {chirp.image && (
+                                <img 
+                                    src={chirp.image} 
+                                    alt="Chirp attachment" 
+                                    className="mt-3 rounded-lg max-h-60 object-cover" />
+                            )}
+
+                            <div className="flex items-center gap-2 mt-3">
+                                <button 
+                                    onClick={() => handleLike(chirp._id)}
+                                    className={`flex items-center gap-1 text-sm font-medium ${
+                                        user && chirp.likes.includes(user.id) 
+                                        ? "text-pink-500"
+                                        : "text-gray-500 hover:text-pink-500"
+                                    }`}    
+                                >❤️ Like
+                                </button>
+                                <span className="text-sm text-gray-500">{chirp.likes.length}</span>
+                            </div>
+                        </div>
                 ))}
-            </ul>
+            </div>
         </div>
     )
 };
