@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import CreateChirpForm from "./CreateChirpForm";
 import { Link } from "react-router-dom";
+import ChirpSkeleton from "./ChirpSkeletion";
 
 export const HomePage = () => {
 
@@ -52,7 +53,13 @@ export const HomePage = () => {
     },[user])
 
     if(loading) {
-        return <div className="text-center  tex-gray-600">Loading...</div>
+        return (
+            <div>
+                <ChirpSkeleton/>
+                <ChirpSkeleton/>
+                <ChirpSkeleton/>
+            </div>
+        )
     }
 
     if(error) {
