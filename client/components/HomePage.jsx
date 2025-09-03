@@ -192,16 +192,16 @@ export const HomePage = () => {
             <h2 className="text-xl font-bold mb-4 text-gray-800">Chirp Feed</h2>
             <ul className="space-y-4">
                 {chirps.map((chirp) => (
-                    console.log(`Comparing Chirp Author ID: ${chirp.author._id} with Logged-in User ID: ${user.id}`),
+                    console.log(`Comparing Chirp Author ID: ${(chirp.author && chirp.author._id) || chirp.author} with Logged-in User ID: ${user.id}`),
                     <li 
                         key={chirp._id}
                         className="bg-white p-4 rounded-xl shadow-sm border border-gray-100"
                         >
 
-                        <Link to={`/profile/${chirp.author._id}`}
+                        <Link to={`/profile/${(chirp.author && chirp.author._id) || chirp.author}`}
                             className="font-bold text-gray-900 hover:underline"
                             >
-                            <strong>{chirp.author.username}</strong>
+                            <strong>{(chirp.author && chirp.author.username) || 'Unknown'}</strong>
                         </Link>
 
                         {editingChirpId === chirp._id ? (
@@ -251,7 +251,7 @@ export const HomePage = () => {
                                 </button>
                                 <span className="text-sm text-gray-500">{chirp.likes.length}</span>
 
-                                {user && chirp.author._id === user.id && (
+                                {user && (((chirp.author && chirp.author._id) || chirp.author) === user.id) && (
                                     <div className="flex gap-2 ml-auto">
                                         <button 
                                             onClick={() => deleteChirp(chirp._id)}

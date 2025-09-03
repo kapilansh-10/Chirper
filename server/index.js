@@ -175,7 +175,10 @@ app.patch('/api/chirps/:id', auth, async (req, res) => {
         }
         if(ChirpToEdit.author.toString() === req.user.id){
             const newText = req.body.text;
-            const updatedChirp = await Chirp.findByIdAndUpdate(req.params.id, { text: newText}, {new: true});
+            // Ensure the updated chirp returns with populated author (username and _id)
+            const updatedChirp = await Chirp
+                .findByIdAndUpdate(req.params.id, { text: newText}, { new: true })
+                .populate('author', 'username');
             res.status(200).json(updatedChirp)
         }
         else{
