@@ -209,7 +209,7 @@ export const HomePage = () => {
                                 <textarea 
                                     value={editedText} 
                                     onChange={(e) => setEditedText(e.target.value)}
-                                    className=" w-full p-2 border rounded-lg focus:ring focus:ring-pink-300 "
+                                    className=" w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300 "
                                 /> 
                                 <div className="flex gap-2 mt-2">
                                     <button 
@@ -243,8 +243,8 @@ export const HomePage = () => {
                                     onClick={() => handleLike(chirp._id)}
                                     className={`flex items-center gap-1 text-sm font-medium ${
                                         chirp.likes.includes(user.id)
-                                        ? "text-pink-500"
-                                        : "text-gray-500 hover:text-pink-500"
+                                        ? "text-red-500"
+                                        : "text-gray-500 hover:text-red-500"
                                     }`}
                                     >
                                     ❤️ Like

@@ -25,7 +25,7 @@ const CreateChirpForm = ({addChirp}) => {
                     placeholder="What's happening?"     
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    className="w-full p-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none text-gray-800"
+                    className="w-full p-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none text-gray-800"
                     
                     >                            
                 </textarea>
@@ -35,10 +35,10 @@ const CreateChirpForm = ({addChirp}) => {
                     className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0 
                     file:text-sm file:font-semibold
-                    file:bg-pink-50 file:text-pink-500
-                    hover:file:bg-pink-100 cursor-pointer" 
+                    file:bg-indigo-50 file:text-indigo-600
+                    hover:file:bg-indigo-100 cursor-pointer" 
                 />
-                <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-6 rounded-full transition">
+                <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-full transition">
                     Chirp
                 </button>
             </form>

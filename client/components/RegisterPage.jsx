@@ -44,15 +44,15 @@ const RegisterPage = ({setCurrentView}) => {
     return (
             // <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8  bg-pink-50" >
             // </div>
-            <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 relative">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 relative">
                 <button 
                     onClick={() => setCurrentView('landing')} 
-                    className="absolute top-6 left-6 text-gray-600 hover:text-pink-600 font-medium flex items-center gap-2"
+                    className="absolute top-6 left-6 text-gray-600 hover:text-indigo-600 font-medium flex items-center gap-2"
                 >
                     &larr; Back to Home
                 </button>
                 <h1 className="mt-10 text-center text-2xl font-bold tracking-tight text-black mb-5">Register an account</h1>
-                    <form onSubmit={handleSubmit} className="bg-red-300 p-8 rounded-lg shadow-lg w-full max-w-sm">
+                    <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-8 rounded-lg shadow-lg w-full max-w-sm">
                         <div>
                             <h3 className="mb-2 font-semibold text-xl" >Username</h3>
                             <div className="mt-2">
@@ -61,7 +61,7 @@ const RegisterPage = ({setCurrentView}) => {
                                     placeholder="username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"  
+                                    className="w-full p-2 bg-white border border-gray-300 rounded text-black focus:outline-none focus:ring-2 focus:ring-indigo-300 mb-4"  
                                 />
                             </div>
                         </div>
@@ -73,7 +73,7 @@ const RegisterPage = ({setCurrentView}) => {
                                 placeholder="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"  
+                                className="w-full p-2 bg-white border border-gray-300 rounded text-black focus:outline-none focus:ring-2 focus:ring-indigo-300 mb-4"  
                             />
                         </div>
 
@@ -83,12 +83,12 @@ const RegisterPage = ({setCurrentView}) => {
                                 placeholder="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"
+                                className="w-full p-2 bg-white border border-gray-300 rounded text-black focus:outline-none focus:ring-2 focus:ring-indigo-300 mb-4"
                             />
                         <br />
                         <button 
                             type="submit"
-                            className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded mb-3"
+                            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-3"
                         >Register</button>
                     </form>
             </div>

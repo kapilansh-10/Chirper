@@ -49,21 +49,21 @@ const LoginPage = ({setCurrentView}) => {
     }
 
     return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 relative">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 relative">
         <button 
             onClick={() => setCurrentView('landing')} 
-            className="absolute top-6 left-6 text-gray-600 hover:text-pink-600 font-medium flex items-center gap-2"
+            className="absolute top-6 left-6 text-gray-600 hover:text-indigo-600 font-medium flex items-center gap-2"
         >
             &larr; Back to Home
         </button>
-        <form onSubmit={handleSubmit} className="bg-red-300 p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <form onSubmit={handleSubmit} className="bg-white border border-gray-200 p-8 rounded-lg shadow-lg w-full max-w-sm">
                 <h3 className="mb-2 font-semibold text-xl" >Email</h3>
                 <input 
                     type="text"
                     value={email}
                     placeholder="you@example.com"
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 mb-4"
+                    className="w-full p-2 bg-white border border-gray-300 rounded text-black focus:outline-none focus:ring-2 focus:ring-indigo-300 mb-4"
                 />
                 <h3 className="mb-2 font-semibold text-xl">Password</h3>
                 <div className="relative mb-4">
@@ -72,7 +72,7 @@ const LoginPage = ({setCurrentView}) => {
                         value={password}
                         placeholder="password"
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full p-2 bg-white rounded text-black focus:outline-none focus:ring-2 focus:ring-pink-300 "
+                        className="w-full p-2 bg-white border border-gray-300 rounded text-black focus:outline-none focus:ring-2 focus:ring-indigo-300 "
                     />
                     <span 
                         onClick={togglePasswordVisibility} 
@@ -81,12 +81,12 @@ const LoginPage = ({setCurrentView}) => {
                     </span>
                 </div>
                 <button 
-                    type="submit" className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded mb-3">
+                    type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-3">
                     Login
                 </button>
             </form>
             <p className="mt-4 text-gray-700 text-xl">Don't have an account?</p>
-            <button onClick={() => setCurrentView('register')} className="text-blue-800 hover:underline font-semibold text-xl">Register</button>        
+            <button onClick={() => setCurrentView('register')} className="text-indigo-600 hover:underline font-semibold text-xl">Register</button>        
     </div>
     )
 }
