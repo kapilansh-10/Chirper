@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import RegisterPage from '../components/RegisterPage';
 import LoginPage from '../components/LoginPage';
+import LandingPage from '../components/LandingPage';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { HomePage } from '../components/HomePage';
@@ -13,7 +14,7 @@ function App() {
   const { user } = useContext(AuthContext)
   console.log('User state in App component:', user); 
 
-  const [currentView, setCurrentView] = useState('login')
+  const [currentView, setCurrentView] = useState('landing')
 
   const [message, setMessage] = useState("");
 
@@ -44,8 +45,10 @@ function App() {
               <HomePage/>
             ) : currentView === 'login' ? (
               <LoginPage setCurrentView={setCurrentView} />
-            ) : (
+            ) : currentView === 'register' ? (
               <RegisterPage setCurrentView={setCurrentView} />
+            ) : (
+              <LandingPage setCurrentView={setCurrentView} />
             )
           }
         />

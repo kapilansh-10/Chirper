@@ -49,7 +49,13 @@ const LoginPage = ({setCurrentView}) => {
     }
 
     return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 relative">
+        <button 
+            onClick={() => setCurrentView('landing')} 
+            className="absolute top-6 left-6 text-gray-600 hover:text-pink-600 font-medium flex items-center gap-2"
+        >
+            &larr; Back to Home
+        </button>
         <form onSubmit={handleSubmit} className="bg-red-300 p-8 rounded-lg shadow-lg w-full max-w-sm">
                 <h3 className="mb-2 font-semibold text-xl" >Email</h3>
                 <input 

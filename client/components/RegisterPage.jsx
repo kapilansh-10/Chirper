@@ -44,7 +44,13 @@ const RegisterPage = ({setCurrentView}) => {
     return (
             // <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8  bg-pink-50" >
             // </div>
-            <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 relative">
+                <button 
+                    onClick={() => setCurrentView('landing')} 
+                    className="absolute top-6 left-6 text-gray-600 hover:text-pink-600 font-medium flex items-center gap-2"
+                >
+                    &larr; Back to Home
+                </button>
                 <h1 className="mt-10 text-center text-2xl font-bold tracking-tight text-black mb-5">Register an account</h1>
                     <form onSubmit={handleSubmit} className="bg-red-300 p-8 rounded-lg shadow-lg w-full max-w-sm">
                         <div>
