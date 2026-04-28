@@ -18,115 +18,77 @@ A minimal Twitter-like microblogging app where users can register, log in, and p
 - Email/password registration and login (JWT, 1h expiry)
 - Create chirps (text up to 280 chars) with optional image uploads (Cloudinary)
 - View global feed (newest first)
-- Like/unlike chirps
-- Edit/delete your own chirps
-- View a user profile feed
+# Chirper
 
-## Prerequisites
+A full-stack Twitter-like social media app for creating posts, liking, uploading media, and following users.
 
-- Node.js 18+ and npm
-- A MongoDB connection string (e.g., MongoDB Atlas)
-- A Cloudinary account (cloud name, API key, API secret)
+## Features
+- RESTful APIs for posts, likes, and media uploads
+- Server-side validation and robust error handling
+- JWT authentication with protected routes
+- Create and edit post flows
+- User registration, login, and profile management
 
-## Quick start (local)
+## Tech Stack
+- **Frontend:** React, Tailwind CSS, Vite
+- **Backend:** Express.js, Node.js
+- **Database:** MongoDB
+- **Media Storage:** Cloudinary
 
-1) Server setup
-- Copy environment template and fill values:
-	- See `server/.env.example`
-- Install deps and run:
-	- In `server/`: `npm install`
-	- Start dev server: `npm run dev` (nodemon) → http://localhost:5000
+## Getting Started
 
-2) Client setup
-- Install deps and run:
-	- In `client/`: `npm install`
-	- Start dev server: `npm run dev` → typically http://localhost:5173
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
+- MongoDB instance (local or cloud)
+- Cloudinary account (for media uploads)
 
-Important for local API calls
-- The client currently points to a deployed API: `https://chirper-api-kapilansh.onrender.com`
-- For local development, update the hardcoded base URL(s) to `http://localhost:5000` in these files:
-	- `client/src/App.jsx`
-	- `client/components/HomePage.jsx`
-	- `client/components/ProfilePage.jsx`
-	- `client/components/LoginPage.jsx`
-	- `client/components/RegisterPage.jsx`
-- Tip (optional improvement): centralize the API base using an env var (e.g., `VITE_API_URL`) and import it where `fetch` is used.
+### Clone the repository
+```
+git clone https://github.com/your-username/chirper.git
+cd chirper
+```
 
-## Environment variables (server)
+### Install dependencies
+#### Client
+```
+cd client
+npm install
+```
+#### Server
+```
+cd ../server
+npm install
+```
 
-Create `server/.env` with:
-- `MONGO_URI` — MongoDB connection string
-- `JWT_SECRET` — strong random secret for signing JWTs
-- `CLOUDINARY_CLOUD_NAME` — Cloudinary cloud name
-- `CLOUDINARY_API_KEY` — Cloudinary API key
-- `CLOUDINARY_API_SECRET` — Cloudinary API secret
-- `PORT` — optional, default is 5000 (server currently uses 5000 in code)
+### Environment Variables
+Create a `.env` file in the `server` directory with the following variables:
+```
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
 
-## Scripts
+### Running the Application
+#### Start the server
+```
+cd server
+npm start
+```
+#### Start the client
+```
+cd ../client
+npm run dev
+```
 
-Server (`server/package.json`)
-- `npm run dev` — start API with nodemon
-- `npm start` — start API with node
+## Screenshots
+[Screenshot here]
 
-Client (`client/package.json`)
-- `npm run dev` — start Vite dev server
-- `npm run build` — build production assets
-- `npm run preview` — preview production build
-- `npm run lint` — run ESLint
+## Live Demo
+[Live demo link here]
 
-## API overview
-
-Base URL
-- Local: `http://localhost:5000`
-- Deployed: `https://chirper-api-kapilansh.onrender.com`
-
-Auth
-- Register: `POST /api/auth/register`
-	- Body (JSON): `{ username, email, password }`
-	- 201 Created → `{ message }`
-- Login: `POST /api/auth/login`
-	- Body (JSON): `{ email, password }`
-	- 200 OK → `{ message, token, user: { id, username, email } }`
-	- Use `Authorization: Bearer <token>` for protected routes
-
-Chirps
-- Create: `POST /api/chirps` (auth)
+---
+For any questions or contributions, please open an issue or submit a pull request.
 	- multipart/form-data: `text` (required), `image` (file, optional)
-	- Returns the created chirp populated with `author.username`
-- List all: `GET /api/chirps` (auth)
-	- Returns all chirps sorted by `createdAt` desc
-- Get by user: `GET /api/chirps/user/:userId`
-	- Returns chirps by a user (server route is public)
-- Edit: `PATCH /api/chirps/:id` (auth, owner only)
-	- Body (JSON): `{ text }`
-- Delete: `DELETE /api/chirps/:id` (auth, owner only)
-- Like/unlike: `PATCH /api/chirps/:id/likes` (auth)
-
-Auth details
-- JWT payload shape: `{ user: { id, username }, iat, exp }`
-- Token is stored in `localStorage` by the client and decoded on load
-
-## UI flow
-
-- Unauthenticated users see Login/Register
-- After login, see the Home feed with a composer to chirp (and attach an image)
-- Like/unlike any chirp, edit/delete only your own
-- Click a username to view their Profile page (their chirps)
-
-## Deployment notes
-
-- Set all server environment variables on your hosting provider (e.g., Render, Railway, Fly.io)
-- Ensure the Cloudinary credentials and MongoDB URI are configured
-- The server enables CORS for all origins by default; restrict as needed in production
-- Update the client API base URL(s) to your deployed server
-
-## Troubleshooting
-
-- JWT expired (1h): log in again; consider refreshing tokens if needed
-- 401 “No token”: ensure `Authorization: Bearer <token>` header is set on protected calls
-- MongoDB connection errors: verify `MONGO_URI` and network access (Atlas IP allowlist)
-- Image upload issues: confirm Cloudinary credentials and allowed formats (jpg, png, jpeg)
-
-## License
-
-No license file is provided in the repository. The `server` subpackage lists ISC in its package.json. Add a top-level LICENSE if you intend to open-source the project.
