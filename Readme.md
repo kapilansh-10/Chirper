@@ -83,12 +83,6 @@ cd ../client
 npm run dev
 ```
 
-## Screenshots
-[Screenshot here]
-
-## Live Demo
-[Live demo link here]
-
 ---
 For any questions or contributions, please open an issue or submit a pull request.
 	- multipart/form-data: `text` (required), `image` (file, optional)
